@@ -87,6 +87,7 @@ result = text[ind+rem-1: ind+1]
             You just need to wrap your code into a function expression and return the <b class="code">result</b> of your computations.
         </p>
         <p>Here is the whole solution:</p>
+        <div class="spoiler">
         <pre class="brush: python">
 def middle(text: str) -> str:
 
@@ -95,6 +96,7 @@ def middle(text: str) -> str:
         
     return result
         </pre>
+        </div>
     </div>
 </div>
 <div class="question-answer">
@@ -107,20 +109,24 @@ def middle(text: str) -> str:
         <p>
             Recursively create new strings without first and last characters from the <b class="code">text</b> until its length become one or two.
         </p>
+        <div class="spoiler">
         <pre class="brush: python">
 def middle(text: str) -> str:
 
     return text if len(text) < 3 else middle(text[1:-1])
         </pre>
+        </div>
         <p>
             This short expression uses a lot of instruments: <b class="code">lambda</b> expression (anonymous function), walrus operator <b class="code">:=</b>, which allows to define variable with initial value in first usage, integer division operator <b class="code">//</b> and <b class="code">~</b> operator. 
         </p>
         <p>
             If your <b class="code">l</b> is <b class="code">2</b> for example, you actually take the third symbol from the beginning of the string. <b class="code">~</b> gives you the actual third character from the end of the string. For the string with odd number of symbols it will be the same symbol. Read more in this <a target="_blank" href="https://py.checkio.org/mission/median/publications/veky/python-3/both-sides/share/63e9bd8840f814430eb543a064990714/#comment-23114">explanation</a>.
         </p>
+         <div class="spoiler">
         <pre class="brush: python">
 middle = lambda text: text[~(l:=(len(text)//2)): l+1]
         </pre>
+        </div>
         <p><b>Click "Best solutions" at mission menu and see a lot of other interesting solutions!</b></p>
     </div>
 </div>
