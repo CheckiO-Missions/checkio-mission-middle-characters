@@ -88,6 +88,7 @@ result = text[ind+rem-1: ind+1]
             Тобі залишилося обгорнути свій код у вираз функції і повернути <b class="code">result</b> своїх розрахунків.
         </p>
         <p>Ось повний розв'язок:</p>
+        <div class="spoiler">
         <pre class="brush: python">
 def middle(text: str) -> str:
 
@@ -96,6 +97,7 @@ def middle(text: str) -> str:
         
     return result
         </pre>
+        </div>
     </div>
 </div>
 <div class="question-answer">
@@ -108,20 +110,24 @@ def middle(text: str) -> str:
         <p>
             Рекурсивно створюй нові рядки з <b class="code">text</b> без першого і останнього символів допоки його довжина не стане 1-2 символи.
         </p>
+        <div class="spoiler">
         <pre class="brush: python">
 def middle(text: str) -> str:
 
     return text if len(text) < 3 else middle(text[1:-1])
         </pre>
+        </div>
         <p>
             Цей короткий вираз використовує багато інструментів: вираз <b class="code">lambda</b> (анонімна функція), "моржовий" оператор <b class="code">:=</b>, який дозволяє проголосити змінну з початковим значенням при першому використанні, оператор цілочисельного ділення <b class="code">//</b> і оператор <b class="code">~</b>. 
         </p>
         <p>
             Якщо значення <b class="code">l</b> наприклад <b class="code">2</b>, ти насправді береш третій символ від початку рядка. Оператор <b class="code">~</b> дозволяє тобі взяти дійсний третій символ від кінця рядка. Для рядків із непарною кількістю символів, це буде один і той же символ. Дізнайся більше у цьому <a target="_blank" href="https://py.checkio.org/mission/median/publications/veky/python-3/both-sides/share/63e9bd8840f814430eb543a064990714/#comment-23114">поясненні</a>.
         </p>
+        <div class="spoiler">
         <pre class="brush: python">
 middle = lambda text: text[~(l:=(len(text)//2)): l+1]
         </pre>
+        </div>
         <p><b>Тисни "Best solutions" в меню місії і побачиш багато інших цікавих розв'язків!</b></p>
     </div>
 </div>
