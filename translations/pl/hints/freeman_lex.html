@@ -1,0 +1,141 @@
+<body data-author="freeman_lex">
+<div class="question-answer">
+    <div class="question">
+        <p>Nie mam pojęcia, jak zacząć rozwiązywać tę misję.</p>
+    </div>
+    <div class="answer">
+        <p>
+            w tym rozwiązaniu misja jest postrzegana jako indeksowanie i krojenie. Pomysł polega na znalezieniu środkowego indeksu (lub dwóch z nich) i zwróceniu odpowiedniego znaku (znaków) jako wycinka <b class="code">text</b>.
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Ok, od czego powinienem zacząć?</p>
+    </div>
+    <div class="answer">
+        <p>
+            Na pewno będzie potrzebna długość <b class="code">text</b>. Proszę ją znaleźć za pomocą funkcji string <a target="_blank" href="https://www.w3schools.com/python/gloss_python_string_length.asp">len(str)</a>.
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Jak znaleźć środkowy indeks (lub dwa z nich)?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            W tym przypadku bardzo przydatna będzie wbudowana funkcja <a target="_blank" href="https://www.w3schools.com/python/ref_func_divmod.asp">divmod()</a>. Zwraca ona iloraz (indeks) i przypomnienie z dzielenia. Musi Pan podzielić długość <b class="code">text</b> (którą wie Pan jak znaleźć) na <b class="code">2</b>.
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Nie rozumiem, jak wybrać znaki mające indeks i przypomnienie.
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Proszę się zastanowić. Jeśli ma Pan ciąg o nieparzystej liczbie znaków, na przykład 5, to Pana <b class="code">ind</b> będzie <b class="code">2</b>, a <b class="code">rem</b> - <b class="code">1</b>. Wiedząc, że liczenie elementów sekwencji zaczyna się od 0 w Pythonie, symbol o indeksie 2 jest w rzeczywistości trzecim - w ciągu pięciu znaków jest to środkowy element, którego szukamy. Tak więc, jeśli <b class="code">rem == 1</b> (nieparzysta liczba znaków) wynikiem funkcji jest <b class="code">text[ind]</b>.
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+result = text[ind] if rem == 1 else ...
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Proszę mi pomóc dokończyć ten warunek!
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Jeśli powtórzy Pan logikę z poprzedniej podpowiedzi do łańcucha o parzystej liczbie znaków, okaże się, że potrzebne są symbole o indeksach <b class="code">ind</b> i <b class="code">ind - 1</b>. Po przeczytaniu o <a target="_blank" href="https://www.w3schools.com/python/python_strings_slicing.asp">slicing strings</a> powinien Pan być w stanie utworzyć podciąg z <b class="code">text</b> z tymi dwoma znakami. Jest to wynik funkcji dla ciągu z parzystą liczbą symboli (<b class="code">rem == 0</b>).
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+result = text[ind] if rem == 1 else text[ind-1: ind+1]
+        </pre>
+        <p>
+            Może Pan użyć <b class="code">rem</b> jako indeksu i wariantów jako elementów krotki i przepisać wyrażenie <b class="code">result</b>.
+        </p>
+        <pre class="brush: python">
+result = (text[ind-1: ind+1], text[ind])[rem]       
+        </pre>
+        <p>
+            Można nawet znaleźć nieco podstępny widok wyrażenia <b class="code">result</b>, jeśli zmodyfikować dolną krawędź plasterka za pomocą <b class="code">rem</b>.
+        </p>
+        <pre class="brush: python">
+result = text[ind+rem-1: ind+1]
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Jak więc powinno wyglądać moje ostateczne rozwiązanie?</p>
+    </div>
+    <div class="answer">
+        <p>
+            Wystarczy zawinąć swój kod w wyrażenie funkcyjne i zwrócić <b class="code">result</b> swoich obliczeń.
+        </p>
+        <p>Oto całe rozwiązanie:</p>
+        <div class="spoiler">
+        <pre class="brush: python">
+def middle(text: str) -> str:
+
+    ind, rem = divmod(len(text), 2)
+    result = text[ind+rem-1: ind+1]
+        
+    return result
+        </pre>
+        </div>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Proszę pokazać mi więcej rozwiązań!<br />
+        bo chcę być prawdziwym 🥇 Python Ninnjaa!</p>
+    </div>
+    <div class="answer">
+        <p>Jasne, proszę pobrać!</p>
+        <p>
+            Proszę rekursywnie tworzyć nowe ciągi bez pierwszych i ostatnich znaków z <b class="code">text</b>, aż ich długość stanie się równa jeden lub dwa.
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+def middle(text: str) -> str:
+
+    return text if len(text) < 3 else middle(text[1:-1])
+        </pre>
+        </div>
+        <p>
+            To krótkie wyrażenie wykorzystuje wiele instrumentów: wyrażenie <b class="code">lambda</b> (funkcja anonimowa), operator morsa <b class="code">:=</b>, który pozwala zdefiniować zmienną z wartością początkową w pierwszym użyciu, operator dzielenia całkowitoliczbowego <b class="code">//</b> i operator <b class="code">~</b>. 
+        </p>
+        <p>
+            Jeśli Państwa <b class="code">l</b> to na przykład <b class="code">2</b>, w rzeczywistości pobierają Państwo trzeci symbol od początku łańcucha. <b class="code">~</b> daje rzeczywisty trzeci znak od końca łańcucha. W przypadku ciągów z nieparzystą liczbą symboli będzie to ten sam symbol. Więcej informacji można znaleźć na stronie <a target="_blank" href="https://py.checkio.org/mission/median/publications/veky/python-3/both-sides/share/63e9bd8840f814430eb543a064990714/#comment-23114">explanation</a>.
+        </p>
+         <div class="spoiler">
+        <pre class="brush: python">
+middle = lambda text: text[~(l:=(len(text)//2)): l+1]
+        </pre>
+        </div>
+        <p>Proszę kliknąć <b>Best solutions</b> w menu misji i zobaczyć wiele innych interesujących rozwiązań!</p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Dzięki! Teraz wiem i rozumiem więcej! Wszystko działa jak należy!</p>
+    </div>
+    <div class="answer">
+        miło mi to słyszeć!
+    </div>
+</div>
+</body>
