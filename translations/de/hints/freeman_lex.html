@@ -1,0 +1,141 @@
+<body data-author="freeman_lex">
+<div class="question-answer">
+    <div class="question">
+        <p>Ich habe keine Ahnung, wie ich mit der Lösung dieser Aufgabe beginnen soll.</p>
+    </div>
+    <div class="answer">
+        <p>
+            💡 Bei dieser Lösung dreht sich alles um Indizierung und Slicing. Die Idee ist, den mittleren Index (oder zwei davon) zu finden und das/die entsprechende(n) Zeichen als ein Slice von <b class="code">text</b> zurückzugeben.
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Ok, womit soll ich anfangen?</p>
+    </div>
+    <div class="answer">
+        <p>
+            Sie benötigen auf jeden Fall die Länge von <b class="code">text</b>. Finden Sie diese mit der Funktion string <a target="_blank" href="https://www.w3schools.com/python/gloss_python_string_length.asp">len(str)</a>.
+        </p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Wie findet man den mittleren Index (oder zwei davon)?
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            In diesem Fall wird Ihnen die eingebaute Funktion <a target="_blank" href="https://www.w3schools.com/python/ref_func_divmod.asp">divmod()</a> sehr nützlich sein. Sie liefert den Quotienten (Index) und die Erinnerung an die Division. Sie müssen die Länge von <b class="code">text</b> (von der Sie wissen, wie Sie sie ermitteln können) durch <b class="code">2</b> teilen.
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Ich verstehe nicht, wie Sie die Zeichen auswählen, die den Index und die Erinnerung haben.
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Lassen Sie uns gemeinsam nachdenken. Wenn Sie eine Zeichenkette mit einer ungeraden Anzahl von Zeichen haben, z.B. 5, wird Ihre <b class="code">ind</b> <b class="code">2</b> und <b class="code">rem</b> - <b class="code">1</b> sein. Da die Zählung der Sequenzelemente in Python bei 0 beginnt, ist das Symbol mit dem Index 2 eigentlich das dritte - in der Zeichenkette mit fünf Zeichen ist es das mittlere Element, nach dem Sie suchen. Wenn also <b class="code">rem == 1</b> (ungerade Anzahl von Zeichen), ist das Ergebnis der Funktion <b class="code">text[ind]</b>.
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+result = text[ind] if rem == 1 else ...
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>
+            Helfen Sie mir, diese Bedingung zu erfüllen!
+        </p>
+    </div>
+    <div class="answer">
+        <p>
+            Wenn Sie die Logik aus dem vorherigen Hinweis auf die Zeichenkette mit einer geraden Anzahl von Zeichen wiederholen, finden Sie heraus, dass Sie Symbole mit den Indizes <b class="code">ind</b> und <b class="code">ind - 1</b> benötigen. Nach der Lektüre von <a target="_blank" href="https://www.w3schools.com/python/python_strings_slicing.asp">slicing strings</a> sollten Sie in der Lage sein, eine Teilzeichenkette aus <b class="code">text</b> mit diesen beiden Zeichen zu erstellen. Das ist das Ergebnis der Funktion für die Zeichenkette mit gerader Anzahl von Symbolen (<b class="code">rem == 0</b>).
+        </p>
+        <pre class="brush: python">
+ind, rem = divmod(len(text), 2)
+result = text[ind] if rem == 1 else text[ind-1: ind+1]
+        </pre>
+        <p>
+            Sie können <b class="code">rem</b> als Index und Varianten als Elemente des Tupels verwenden und den Ausdruck <b class="code">result</b> umschreiben.
+        </p>
+        <pre class="brush: python">
+result = (text[ind-1: ind+1], text[ind])[rem]       
+        </pre>
+        <p>
+            Sie können sogar eine etwas knifflige Ansicht des <b class="code">result</b> Ausdrucks herausfinden, wenn Sie den unteren Rand des Slice mit <b class="code">rem</b> ändern.
+        </p>
+        <pre class="brush: python">
+result = text[ind+rem-1: ind+1]
+        </pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Wie sollte also meine endgültige Lösung aussehen?</p>
+    </div>
+    <div class="answer">
+        <p>
+            Sie müssen Ihren Code nur in einen Funktionsausdruck verpacken und die <b class="code">result</b> Ihrer Berechnungen zurückgeben.
+        </p>
+        <p>Hier ist die gesamte Lösung:</p>
+        <div class="spoiler">
+        <pre class="brush: python">
+def middle(text: str) -> str:
+
+    ind, rem = divmod(len(text), 2)
+    result = text[ind+rem-1: ind+1]
+        
+    return result
+        </pre>
+        </div>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Zeigen Sie mir mehr Lösungen!<br />
+        denn ich möchte ein echter 🥇 Python-Ninjaa sein!</p>
+    </div>
+    <div class="answer">
+        <p>Klar, schnapp sie dir!</p>
+        <p>
+            Erstellen Sie rekursiv neue Zeichenketten ohne erstes und letztes Zeichen aus <b class="code">text</b>, bis die Länge der Zeichenkette ein oder zwei beträgt.
+        </p>
+        <div class="spoiler">
+        <pre class="brush: python">
+def middle(text: str) -> str:
+
+    return text if len(text) < 3 else middle(text[1:-1])
+        </pre>
+        </div>
+        <p>
+            Dieser kurze Ausdruck verwendet viele Instrumente: <b class="code">lambda</b> Ausdruck (anonyme Funktion), Walross-Operator <b class="code">:=</b>, der es erlaubt, eine Variable mit einem Anfangswert bei der ersten Verwendung zu definieren, Operator für Ganzzahldivision <b class="code">//</b> und <b class="code">~</b>. 
+        </p>
+        <p>
+            Wenn Ihr <b class="code">l</b> z.B. <b class="code">2</b> ist, nehmen Sie tatsächlich das dritte Symbol vom Anfang der Zeichenkette. <b class="code">~</b> gibt Ihnen das tatsächliche dritte Zeichen vom Ende der Zeichenkette. Bei einer Zeichenkette mit einer ungeraden Anzahl von Symbolen handelt es sich um das gleiche Symbol. Lesen Sie mehr in diesem <a target="_blank" href="https://py.checkio.org/mission/median/publications/veky/python-3/both-sides/share/63e9bd8840f814430eb543a064990714/#comment-23114">explanation</a>.
+        </p>
+         <div class="spoiler">
+        <pre class="brush: python">
+middle = lambda text: text[~(l:=(len(text)//2)): l+1]
+        </pre>
+        </div>
+        <p>Klicken Sie auf <b>Best solutions</b> im Missionsmenü und sehen Sie sich viele weitere interessante Lösungen an!</p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        <p>Vielen Dank! Ich weiß und verstehe jetzt mehr! Alles funktioniert bestens!</p>
+    </div>
+    <div class="answer">
+        👍 Freut mich zu hören!
+    </div>
+</div>
+</body>
